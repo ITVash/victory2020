@@ -2,10 +2,11 @@ import express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 
-import { UserControllers } from '../controllers'
+import { UserControllers, RouteMapControllers } from '../controllers'
 import { verifyToken } from '../utils'
 
 const userCtrl = new UserControllers()
+const routeMapCtrl = new RouteMapControllers()
 
 const CreateRoutes = (app: express.Express) => {
   app.use(cors())
@@ -26,6 +27,15 @@ const CreateRoutes = (app: express.Express) => {
   app.get('/api/getMe', verifyToken, userCtrl.getMe)
   app.put('/api/user/:id', verifyToken, userCtrl.update)
   app.delete('/api/user/:id', verifyToken, userCtrl.delete)
+
+  /**
+   * RouteMap Routers
+   */
+  app.post('/api/routeMap', verifyToken, routeMapCtrl.create)
+  app.get('/api/routeMap', routeMapCtrl.show)
+  app.get('/api/routeMap/:id', routeMapCtrl.showID)
+  app.put('/api/routeMap/:id', verifyToken, routeMapCtrl.update)
+  app.delete('/api/routeMap/:id', verifyToken, routeMapCtrl.delete)
 
     
 }

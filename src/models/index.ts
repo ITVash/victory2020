@@ -1,6 +1,6 @@
 export { default as UserModel } from './UserModels'
-export { default as OrganisingModel } from './OrganisingModels'
-export { default as RouteMapModel } from './RouteMapModels'
+export { default as OrganisingModels } from './OrganisingModels'
+export { default as RouteMapModels } from './RouteMapModels'
 export { default as SponsorModels } from './SponsorModels'
 export { default as GeneralSupportModels } from './GeneralSupportModels'
 export { default as MediaSupportModels } from './MediaSupportModels'
