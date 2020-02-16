@@ -2,13 +2,10 @@ import express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 
-import { UserControllers, CoupControllers, SupportControllers, LampControllers } from '../controllers'
+import { UserControllers } from '../controllers'
 import { verifyToken } from '../utils'
 
 const userCtrl = new UserControllers()
-const coupCtrl = new CoupControllers()
-const supportCtrl = new SupportControllers()
-const lampCtrl = new LampControllers()
 
 const CreateRoutes = (app: express.Express) => {
   app.use(cors())
@@ -30,29 +27,6 @@ const CreateRoutes = (app: express.Express) => {
   app.put('/api/user/:id', verifyToken, userCtrl.update)
   app.delete('/api/user/:id', verifyToken, userCtrl.delete)
 
-  /**
-   * Coup Routers
-   */
-  app.get('/api/coup', verifyToken, coupCtrl.show)
-  app.post('/api/coup', verifyToken, coupCtrl.create)
-  app.put('/api/coup/:id', verifyToken, coupCtrl.update)
-  app.delete('/api/coup/:id', verifyToken, coupCtrl.delete)
-
-  /**
-   * Support Routers
-   */
-  app.get('/api/support', verifyToken, supportCtrl.show)
-  app.post('/api/support', verifyToken, supportCtrl.create)
-  app.put('/api/support/:id', verifyToken, supportCtrl.update)
-  app.delete('/api/support/:id', verifyToken, supportCtrl.delete)
-
-  /**
-   * Lamp Routers
-   */
-  app.get('/api/lamp', verifyToken, lampCtrl.show)
-  app.post('/api/lamp', verifyToken, lampCtrl.create)
-  app.put('/api/lamp/:id', verifyToken, lampCtrl.update)
-  app.delete('/api/lamp/:id', verifyToken, lampCtrl.delete)
-  
+    
 }
 export default CreateRoutes
