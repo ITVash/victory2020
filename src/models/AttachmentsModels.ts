@@ -21,6 +21,6 @@ const AttachmentsSchema = new Schema(
 	{ timestamps: true, versionKey: false },
 )
 
-const AttachmentsModels = mongoose.model<IAttachments>("Home", AttachmentsSchema)
+const AttachmentsModels = mongoose.model<IAttachments>("Attachments", AttachmentsSchema)
 
 export default AttachmentsModels

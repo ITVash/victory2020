@@ -2,11 +2,12 @@ import express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 
-import { UserControllers, RouteMapControllers } from '../controllers'
+import { UserControllers, RouteMapControllers, AttachmentsControllers } from '../controllers'
 import { verifyToken } from '../utils'
 
 const userCtrl = new UserControllers()
 const routeMapCtrl = new RouteMapControllers()
+const attachmentsCtrl = new AttachmentsControllers()
 
 const CreateRoutes = (app: express.Express) => {
   app.use(cors())
@@ -37,6 +38,14 @@ const CreateRoutes = (app: express.Express) => {
   app.put('/api/routeMap/:id', verifyToken, routeMapCtrl.update)
   app.delete('/api/routeMap/:id', verifyToken, routeMapCtrl.delete)
 
+  /**
+   * Attachments Routers
+   */
+  app.post('/api/attachments', verifyToken, attachmentsCtrl.create)
+  app.put('/api/attachments/:id', verifyToken, attachmentsCtrl.update)
+  app.get('/api/attachments', attachmentsCtrl.show)
+  app.get('/api/attachments/:id', attachmentsCtrl.showID)
+  app.delete('/api/attachments/:id', verifyToken, attachmentsCtrl.delete)
     
 }
 export default CreateRoutes
