@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
+import multer from 'multer'
 
 import { UserControllers, RouteMapControllers, AttachmentsControllers } from '../controllers'
 import { verifyToken } from '../utils'
@@ -8,6 +9,16 @@ import { verifyToken } from '../utils'
 const userCtrl = new UserControllers()
 const routeMapCtrl = new RouteMapControllers()
 const attachmentsCtrl = new AttachmentsControllers()
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'upload')
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname)
+  }
+})
+let upload = multer({storage: storage})
 
 const CreateRoutes = (app: express.Express) => {
   app.use(cors())
@@ -41,7 +52,7 @@ const CreateRoutes = (app: express.Express) => {
   /**
    * Attachments Routers
    */
-  app.post('/api/attachments', verifyToken, attachmentsCtrl.create)
+  app.post('/api/attachments', upload.array('file'), attachmentsCtrl.create)
   app.put('/api/attachments/:id', verifyToken, attachmentsCtrl.update)
   app.get('/api/attachments', attachmentsCtrl.show)
   app.get('/api/attachments/:id', attachmentsCtrl.showID)
