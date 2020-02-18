@@ -10,7 +10,8 @@ export interface IAttachments extends Document {
 	path: string
 	size: number
   desc: string
-  body: string
+	body: string
+	images: object
 }
 
 const AttachmentsSchema = new Schema(
@@ -24,7 +25,8 @@ const AttachmentsSchema = new Schema(
 		path: { type: String, default: "what!" },
 		size: { type: Number, default: 0 },
     desc: { type: String, default: 'описание файла' },
-    body: { type: String, default: 'Текст' }
+		body: { type: String, default: 'Текст' },
+		images: {type: Object, default: null}
 	},
 	{ timestamps: true, versionKey: false },
 )

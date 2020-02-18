@@ -2,19 +2,23 @@ import { Request, Response } from "express"
 
 import { AttachmentsModels } from "../models"
 import { IAttachments } from "../models/AttachmentsModels"
+import { Field } from "multer"
 
 class AttachmentsControllers {
 	create = (req: Request, res: Response) => {
 		const filez = req.files
-		console.log(filez)
-		res.json(filez)
-		const attachments = new AttachmentsModels(filez)
+
+		const attachments = new AttachmentsModels({images: filez})
 		attachments
 			.save()
       .then((obj: IAttachments) => {
-        console.log(obj)
+        res.status(201).json(obj)
       })
-      .catch((err: any) => {
+			.catch((err: any) => {
+				res.status(500).json({
+					status: 500,
+					message: err
+				})
         console.log(err)
       })
 	}

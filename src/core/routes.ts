@@ -22,6 +22,7 @@ let upload = multer({storage: storage})
 
 const CreateRoutes = (app: express.Express) => {
   app.use(cors())
+  app.use('/upload', express.static('upload'))
   app.use(bodyParser.json())
 
   app.get('/', (req: express.Request, res: express.Response) => {
