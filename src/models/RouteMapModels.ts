@@ -7,10 +7,8 @@ export interface IRouteMap extends Document {
 	lat: number
 	lng: number
 	visited: boolean
-	attachments: [{
-		type: Schema.Types.ObjectId,
-		ref: string
-	}]
+	images: object
+	videos: object
 }
 
 const RouteMapSchema = new Schema(
@@ -21,10 +19,8 @@ const RouteMapSchema = new Schema(
 		lat: { type: Number, default: 0 },
 		lng: { type: Number, default: 0 },
 		visited: { type: Boolean, default: false },
-		attachments: [{
-			type: Schema.Types.ObjectId,
-			ref: 'Attachments'
-		}]
+		images: { type: Object, default: null },
+		videos: { type: Object, default: null }
 	},
 	{ timestamps: true, versionKey: false },
 )

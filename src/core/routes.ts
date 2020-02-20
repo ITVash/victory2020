@@ -2,13 +2,14 @@ import express from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 import multer from 'multer'
+import path from 'path'
 
-import { UserControllers, RouteMapControllers, AttachmentsControllers } from '../controllers'
+import { UserControllers, RouteMapControllers } from '../controllers'
 import { verifyToken } from '../utils'
 
 const userCtrl = new UserControllers()
 const routeMapCtrl = new RouteMapControllers()
-const attachmentsCtrl = new AttachmentsControllers()
+//const attachmentsCtrl = new AttachmentsControllers()
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -24,8 +25,9 @@ const CreateRoutes = (app: express.Express) => {
   app.use(cors())
   app.use('/upload', express.static('upload'))
   app.use(bodyParser.json())
-
+  //app.use('/', express.static(path.join('client')))
   app.get('/', (req: express.Request, res: express.Response) => {
+    //res.sendFile(path.resolve('client', 'index.html'))
     res.send('Добро пожаловать на сервер!!!')
   })
   app.get('/api', (req: express.Request, res: express.Response) => {
@@ -44,20 +46,20 @@ const CreateRoutes = (app: express.Express) => {
   /**
    * RouteMap Routers
    */
-  app.post('/api/routeMap', verifyToken, routeMapCtrl.create)
+  app.post('/api/routeMap', upload.array('file'),  verifyToken, routeMapCtrl.create)
   app.get('/api/routeMap', routeMapCtrl.show)
   app.get('/api/routeMap/:id', routeMapCtrl.showID)
-  app.put('/api/routeMap/:id', verifyToken, routeMapCtrl.update)
+  app.put('/api/routeMap/:id', upload.array('file'),  verifyToken, routeMapCtrl.update)
   app.delete('/api/routeMap/:id', verifyToken, routeMapCtrl.delete)
 
   /**
    * Attachments Routers
    */
-  app.post('/api/attachments', upload.array('file'), attachmentsCtrl.create)
+  /*app.post('/api/attachments', upload.array('file'), attachmentsCtrl.create)
   app.put('/api/attachments/:id', verifyToken, attachmentsCtrl.update)
   app.get('/api/attachments', attachmentsCtrl.show)
   app.get('/api/attachments/:id', attachmentsCtrl.showID)
-  app.delete('/api/attachments/:id', verifyToken, attachmentsCtrl.delete)
+  app.delete('/api/attachments/:id', verifyToken, attachmentsCtrl.delete)*/
     
 }
 export default CreateRoutes

@@ -5,7 +5,8 @@ import { IRouteMap } from "../models/RouteMapModels"
 import { NativeError } from "mongoose"
 
 class RouteMapControllers {
-	create = (req: Request, res: Response) => {
+  create = (req: Request, res: Response) => {
+    const file = req.files
 		const data: IRouteMap = req.body
 		const PostData = {
 			city: data.city,
@@ -14,7 +15,8 @@ class RouteMapControllers {
 			lat: data.lat,
 			lng: data.lng,
 			visited: data.visited,
-			attachments: data.attachments,
+      images: file,
+      videos: data.videos
 		}
 		const routeMap = new RouteMapModels(PostData)
 		routeMap
@@ -39,7 +41,6 @@ class RouteMapControllers {
   showID = (req: Request, res: Response) => {
     const id = req.params.id
     RouteMapModels.findById(id)
-      .populate('attachments')
       .exec((err: NativeError, obj: IRouteMap) => {
         if (err) return res.status(500).json({ status: 500, message: err })
         if (!obj) return res.status(404).json({ status: 404, message: `Город ${id} не найден!` })
@@ -48,6 +49,7 @@ class RouteMapControllers {
   }
   update = (req: Request, res: Response) => {
     const id = req.params.id
+    const file = req.files
     const data: IRouteMap = req.body
     const UppData = {
       city: data.city,
@@ -56,7 +58,8 @@ class RouteMapControllers {
 			lat: data.lat,
 			lng: data.lng,
 			visited: data.visited,
-			attachments: data.attachments,
+      images: file,
+      videos: data.videos
     }
     RouteMapModels.findByIdAndUpdate({ _id: id }, UppData, { new: true }, (err: any, routeMap: IRouteMap | any) => {
       if (err) return res.status(500).json({ status: 500, message: err })
