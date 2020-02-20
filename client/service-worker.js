@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.a4476959e85fc7e6eaaf1e29a12317ab.js"
+  "/precache-manifest.8f1fe79177268f8baa731978a59d7e56.js"
 );
 
 self.addEventListener('message', (event) => {
@@ -36,28 +36,4 @@ workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 workbox.routing.registerNavigationRoute(workbox.precaching.getCacheKeyForURL("/index.html"), {
   
   blacklist: [/^\/_/,/\/[^\/?]+\.[^\/]+$/],
-});
-self.addEventListener('push', event => {
-  const data = event.data.json()
-  const options = {
-    body: data.body,
-    icon: './logo192.png'
-  }
-  event.waitUntil(
-    self.registration.showNotification(data.title, options)
-  );
-})
-
-self.addEventListener('notificationclick', e => {
-  const url = 'https://donbassoperatable.web.app'
-  const notifi = e.notification
-  //const primaryKey = await notifi.data.primaryKey
-  const action = e.action
-  if (action === 'close') {
-    notifi.close()
-  } else {
-    clients.openWindow(url);
-    notifi.close()
-  }
-	return clients.openWindow(url);
 });

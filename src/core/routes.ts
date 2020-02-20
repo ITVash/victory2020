@@ -4,12 +4,12 @@ import bodyParser from 'body-parser'
 import multer from 'multer'
 import path from 'path'
 
-import { UserControllers, RouteMapControllers } from '../controllers'
+import { UserControllers, RouteMapControllers, PeopleControllers } from '../controllers'
 import { verifyToken } from '../utils'
 
 const userCtrl = new UserControllers()
 const routeMapCtrl = new RouteMapControllers()
-//const attachmentsCtrl = new AttachmentsControllers()
+const peopleCtrl = new PeopleControllers()
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -25,9 +25,9 @@ const CreateRoutes = (app: express.Express) => {
   app.use(cors())
   app.use('/upload', express.static('upload'))
   app.use(bodyParser.json())
-  //app.use('/', express.static(path.join('client')))
-  app.get('/', (req: express.Request, res: express.Response) => {
-    //res.sendFile(path.resolve('client', 'index.html'))
+  app.use('/', express.static(path.join('client')))
+  app.get('*', (req: express.Request, res: express.Response) => {
+    res.sendFile(path.resolve('client', 'index.html'))
     res.send('Добро пожаловать на сервер!!!')
   })
   app.get('/api', (req: express.Request, res: express.Response) => {
@@ -53,13 +53,13 @@ const CreateRoutes = (app: express.Express) => {
   app.delete('/api/routeMap/:id', verifyToken, routeMapCtrl.delete)
 
   /**
-   * Attachments Routers
+   * People Routers
    */
-  /*app.post('/api/attachments', upload.array('file'), attachmentsCtrl.create)
-  app.put('/api/attachments/:id', verifyToken, attachmentsCtrl.update)
-  app.get('/api/attachments', attachmentsCtrl.show)
-  app.get('/api/attachments/:id', attachmentsCtrl.showID)
-  app.delete('/api/attachments/:id', verifyToken, attachmentsCtrl.delete)*/
+  app.post('/api/people', upload.single('file'), peopleCtrl.create)
+  app.put('/api/people/:id', upload.single('file'),  verifyToken, peopleCtrl.update)
+  app.get('/api/people', peopleCtrl.show)
+  app.get('/api/people/:id', peopleCtrl.showID)
+  app.delete('/api/people/:id', verifyToken, peopleCtrl.delete)
     
 }
 export default CreateRoutes
