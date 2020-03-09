@@ -2,7 +2,7 @@ import mongoose, { Schema, Document } from "mongoose"
 
 export interface IRouteMap extends Document {
 	city: string
-	photo: string
+	photo: object
 	body: string
 	lat: number
 	lng: number
@@ -14,7 +14,7 @@ export interface IRouteMap extends Document {
 const RouteMapSchema = new Schema(
 	{
 		city: { type: String, default: "Город", unique: true },
-		photo: { type: String, default: "Город" },
+		photo: { type: Object, default: null },
 		body: {type: String, default: 'Информация о событиях' },
 		lat: { type: Number, default: 0 },
 		lng: { type: Number, default: 0 },

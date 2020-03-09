@@ -6,16 +6,24 @@ import { NativeError } from "mongoose"
 
 class PeopleControllers {
   create = (req: Request, res: Response) => {
-    const file = req.file
+    //const file = req.file
 		const data: IPeople = req.body
     const PostData = {
-      avatar: file.originalname,
+      avatar: data.avatar,
       type: data.type,
       cities: data.cities,
       name: data.name,
       desc: data.desc,
       body: data.body,
-      link: data.link
+      link: data.link,
+      soc: {
+        vk: data.soc.vk,
+        fb: data.soc.fb,
+        ins: data.soc.ins,
+        site: data.soc.site,
+        you: data.soc.you,
+        tw: data.soc.tw
+      }
 		}
 		const routeMap = new PeopleModels(PostData)
 		routeMap
@@ -48,16 +56,24 @@ class PeopleControllers {
   }
   update = (req: Request, res: Response) => {
     const id = req.params.id
-    const file = req.file
+    //const file = req.file
     const data: IPeople = req.body
     const UppData = {
-      avatar: file.originalname,
+      avatar: data.avatar,
       type: data.type,
       cities: data.cities,
       name: data.name,
       desc: data.desc,
       body: data.body,
-      link: data.link
+      link: data.link,
+      soc: {
+        vk: data.soc.vk,
+        fb: data.soc.fb,
+        ins: data.soc.ins,
+        site: data.soc.site,
+        you: data.soc.you,
+        tw: data.soc.tw
+      }
     }
     PeopleModels.findByIdAndUpdate({ _id: id }, UppData, { new: true }, (err: any, people: IPeople | any) => {
       if (err) return res.status(500).json({ status: 500, message: err })
@@ -65,7 +81,23 @@ class PeopleControllers {
       res.json(people)
     })
   }
-	delete = (req: Request, res: Response) => {}
+  delete = (req: Request, res: Response) => {
+    const id = req.params.id
+		PeopleModels.findById(id)
+			.remove()
+			.exec((err: NativeError, obj: any) => {
+        if (err) {
+          return res.status(403).json({
+            status: 403,
+            message: `Ошибка при удалении ${obj}`,
+          })
+        }
+        res.json({
+					status: 200,
+					message: `Человек ${obj} удален`,
+				})
+			})
+  }
 }
 
 export default PeopleControllers
