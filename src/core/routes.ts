@@ -3,24 +3,35 @@ import cors from "cors"
 import bodyParser from "body-parser"
 import multer from "multer"
 import path from "path"
+import webpush from 'web-push'
+import dotenv from 'dotenv'
 
 import {
 	UserControllers,
 	RouteMapControllers,
 	PeopleControllers,
+	NewsControllers,
+	NotificationControllers,
 } from "../controllers"
 import { verifyToken } from "../utils"
+
+dotenv.config()
 
 const userCtrl = new UserControllers()
 const routeMapCtrl = new RouteMapControllers()
 const peopleCtrl = new PeopleControllers()
+const newsCtrl = new NewsControllers()
+const notifiCtrl = new NotificationControllers()
 
+//const vapidKey = webpush.generateVAPIDKeys()
+//console.log('VapidKey', vapidKey)
+webpush.setVapidDetails('mailto: vashdns@gmail.com', `${process.env.PUBLIC_KEY}`, `${process.env.PRIVATE_KEY}`)
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
 		cb(null, "upload")
 	},
 	filename: (req, file, cb) => {
-		cb(null, file.originalname)
+		cb(null, `${file.originalname}`)
 	},
 })
 let upload = multer({ storage: storage })
@@ -78,5 +89,20 @@ const CreateRoutes = (app: express.Express) => {
 	app.get("/api/people", peopleCtrl.show)
 	app.get("/api/people/:id", peopleCtrl.showID)
 	app.delete("/api/people/:id", peopleCtrl.delete)
+
+	/**
+	 * News Routers
+	 */
+	app.post("/api/news", newsCtrl.create)
+	app.put("/api/news/:id", newsCtrl.update)
+	app.get("/api/news", newsCtrl.show)
+	app.get("/api/news/:id", newsCtrl.showID)
+	app.delete("/api/news/:id", newsCtrl.delete)
+
+	/**
+	 * Notification Routers 
+	 */
+	app.post('/notifications/subscribe', notifiCtrl.create)
+	app.post('/notifications/send', notifiCtrl.sendAll)
 }
 export default CreateRoutes

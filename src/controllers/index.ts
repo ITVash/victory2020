@@ -1,3 +1,5 @@
 export { default as UserControllers } from './UserControllers'
 export { default as RouteMapControllers } from './RouteMapControllers'
 export { default as PeopleControllers } from './PeopleControllers'
+export { default as NewsControllers } from './NewsControllers'
+export { default as NotificationControllers } from './NotificationControllers'

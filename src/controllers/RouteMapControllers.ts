@@ -6,7 +6,7 @@ import { NativeError } from "mongoose"
 
 class RouteMapControllers {
 	create = (req: Request, res: Response) => {
-		const file = req.files
+		//const file = req.files
 		const data: IRouteMap = req.body
 		const PostData = {
 			city: data.city,
@@ -22,13 +22,12 @@ class RouteMapControllers {
 		routeMap
 			.save()
 			.then((obj: IRouteMap) => {
-				res.status(201).json({ data: obj, file })
+				res.status(201).json({ data: obj })
 			})
 			.catch((err: any) => {
 				res.status(500).json({
 					status: "error",
 					message: err,
-					data: file,
 				})
 			})
 	}
