@@ -41,9 +41,10 @@ const CreateRoutes = (app: express.Express) => {
 	app.use("/upload", express.static("upload"))
 	app.use(bodyParser.json())
 	app.use("/", express.static(path.join("client")))
-	app.get("/", (req: express.Request, res: express.Response) => {
+	
+	app.get("*", (req: express.Request, res: express.Response) => {
 		res.sendFile(path.resolve("client", "index.html"))
-		res.send("Добро пожаловать на сервер!!!")
+		//res.send("Добро пожаловать на сервер!!!")
 	})
 	app.get("/api", (req: express.Request, res: express.Response) => {
 		res.send("Тут все роуты нашего сервера!!!")
