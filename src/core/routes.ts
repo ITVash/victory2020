@@ -42,7 +42,11 @@ const CreateRoutes = (app: express.Express) => {
 	app.use(bodyParser.json())
 	app.use("/", express.static(path.join("client")))
 	
-	app.get("*", (req: express.Request, res: express.Response) => {
+	app.get("/", (req: express.Request, res: express.Response) => {
+		res.sendFile(path.resolve("client", "index.html"))
+		//res.send("Добро пожаловать на сервер!!!")
+	})
+	app.get("/manager/", (req: express.Request, res: express.Response) => {
 		res.sendFile(path.resolve("client", "index.html"))
 		//res.send("Добро пожаловать на сервер!!!")
 	})
@@ -76,7 +80,7 @@ const CreateRoutes = (app: express.Express) => {
 	/**
 	 * RouteMap Routers
 	 */
-	app.post("/api/routeMap", upload.array("file"), routeMapCtrl.create)
+	app.post("/api/routeMap", routeMapCtrl.create)
 	app.get("/api/routeMap", routeMapCtrl.show)
 	app.get("/api/routeMap/:id", routeMapCtrl.showID)
 	app.put("/api/routeMap/:id", routeMapCtrl.update)
