@@ -28,7 +28,7 @@ class NewsControllers {
 	}
 	show = (_: any, res: Response) => {
 		NewsModels.find()
-			.sort("createdAt")
+			.sort({"createdAt":"desc"})
 			.exec((err: NativeError, obj: INews) => {
 				if (err) return res.status(500).json({ status: 500, message: err })
 				if (!obj)

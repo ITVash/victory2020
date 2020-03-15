@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.784ec5484601c6b0b5659a651bd6a7c1.js"
+  "/precache-manifest.7decd08806ab83ec5d971d73a0af92fa.js"
 );
 
 self.addEventListener('message', (event) => {
@@ -36,4 +36,28 @@ workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 workbox.routing.registerNavigationRoute(workbox.precaching.getCacheKeyForURL("/index.html"), {
   
   blacklist: [/^\/_/,/\/[^\/?]+\.[^\/]+$/],
+});
+self.addEventListener('push', event => {
+  const data = event.data.json()
+  const options = {
+    body: data.body,
+    icon: './icon-192x192.png'
+  }
+  event.waitUntil(
+    self.registration.showNotification(data.title, options)
+  );
+})
+
+self.addEventListener('notificationclick', e => {
+  const url = 'https://pobeda75.online'
+  const notifi = e.notification
+  //const primaryKey = await notifi.data.primaryKey
+  const action = e.action
+  if (action === 'close') {
+    notifi.close()
+  } else {
+    clients.openWindow(url);
+    notifi.close()
+  }
+	return clients.openWindow(url);
 });
