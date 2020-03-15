@@ -25,7 +25,7 @@ const notifiCtrl = new NotificationControllers()
 
 //const vapidKey = webpush.generateVAPIDKeys()
 //console.log('VapidKey', vapidKey)
-webpush.setVapidDetails('mailto: vashdns@gmail.com', `${process.env.PUBLIC_KEY}`, `${process.env.PRIVATE_KEY}`)
+webpush.setVapidDetails('mailto:vashdns@gmail.com', `${process.env.PUBLIC_KEY}`, `${process.env.PRIVATE_KEY}`)
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
 		cb(null, "upload")

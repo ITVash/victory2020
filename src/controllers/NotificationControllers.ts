@@ -48,8 +48,20 @@ class NotificationControllers {
 				notifiUser.forEach(pushUser => {
 					webpush
 						.sendNotification(pushUser, subject)
-						.then((result: any) => { console.log(result) })
-						.catch((err: any) => { console.log(err) })
+						.then((result: any) => {
+							console.log(result)
+							res.json({
+								status: 200,
+								message: 'Сообщения отправлены!'
+							})
+						})
+						.catch((err: any) => {
+							console.log(err)
+							res.json({
+								status: 404,
+								message: 'Сообщения не отправлены!'
+							})
+						})
 				})
 			})
 	}
