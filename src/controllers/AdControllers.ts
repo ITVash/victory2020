@@ -36,7 +36,7 @@ class AdControllers {
 	}
 	update = (req: Request, res: Response) => {
 		const id = req.params.id
-		const data: IAd = req.body
+    const data: IAd = req.body
 		const postData = {
 			logo: data.logo,
 			title: data.title,
@@ -51,13 +51,13 @@ class AdControllers {
 			{ _id: id },
 			postData,
 			{ new: true },
-			(err: any, ad: IAd | any) => {
+			(err: any, ad: IAd | null) => {
 				if (err) return res.status(500).json({ status: 500, message: err })
 				if (!ad)
 					return res
 						.status(404)
 						.json({ status: 404, message: `Заказчик ${id} не найден!` })
-				res.json(ad)
+				res.status(200).json(ad)
 			},
 		)
 	}

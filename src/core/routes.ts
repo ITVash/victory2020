@@ -111,10 +111,10 @@ const CreateRoutes = (app: express.Express) => {
 	/**
 	 * Ad Routers
 	 */
-	app.post("/api/ad", adCtrl.create)
-	app.put("/api/ad/:id", adCtrl.update)
-	app.get("/api/ad", adCtrl.show)
-	app.delete("/api/ad/:id", adCtrl.delete)
+	app.post("/api/ads", adCtrl.create)
+	app.put("/api/ads/:id", adCtrl.update)
+	app.get("/api/ads", adCtrl.show)
+	app.delete("/api/ads/:id", adCtrl.delete)
 
 	/**
 	 * Notification Routers 
