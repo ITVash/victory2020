@@ -12,7 +12,8 @@ import {
 	PeopleControllers,
 	NewsControllers,
 	NotificationControllers,
-	CounterControllers
+	CounterControllers,
+	AdControllers
 } from "../controllers"
 import { verifyToken } from "../utils"
 
@@ -24,6 +25,7 @@ const peopleCtrl = new PeopleControllers()
 const newsCtrl = new NewsControllers()
 const notifiCtrl = new NotificationControllers()
 const countCtrl = new CounterControllers()
+const adCtrl = new AdControllers()
 
 //const vapidKey = webpush.generateVAPIDKeys()
 //console.log('VapidKey', vapidKey)
@@ -105,6 +107,14 @@ const CreateRoutes = (app: express.Express) => {
 	app.get("/api/news", newsCtrl.show)
 	app.get("/api/news/:id", newsCtrl.showID)
 	app.delete("/api/news/:id", newsCtrl.delete)
+
+	/**
+	 * Ad Routers
+	 */
+	app.post("/api/ad", adCtrl.create)
+	app.put("/api/ad/:id", adCtrl.update)
+	app.get("/api/ad", adCtrl.show)
+	app.delete("/api/ad/:id", adCtrl.delete)
 
 	/**
 	 * Notification Routers 
