@@ -30,6 +30,7 @@ class AdControllers {
 	show = (_: any, res: Response) => {
 		AdModels.find({}, (err: any, obj: IAd) => {
 			if (err) return res.status(500).json(err)
+			if (!obj) return res.status(404).json({ status: 404, message: "Нет Рекламы для отображения" })
 			res.json(obj)
 		})
 	}
